@@ -1,18 +1,15 @@
 controller/TaskController.java
  controller.TaskController
-TodoAPP/model.java
- TodoAPP.model
-TodoAPP/view.java
- TodoAPP.view
-model/Task.java
- model.Task
-TodoAPP/controller.java
- TodoAPP.controller
-util/ConnectionFactory.java
- util.ConnectionFactory
 model/Project.java
  model.Project
+util/ConnectionFactory.java
+ util.ConnectionFactory
+model/Task.java
+ model.Task
 controller/ProjectController.java
  controller.ProjectController
-TodoAPP/Main.java
- TodoAPP.Main
+main/Main.java
+ main.Main
+view/MainScream.java
+ view.MainScream
+ view.MainScream$1
