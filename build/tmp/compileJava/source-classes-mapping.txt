@@ -1,15 +1,31 @@
 controller/TaskController.java
  controller.TaskController
-model/Project.java
- model.Project
 util/ConnectionFactory.java
  util.ConnectionFactory
 model/Task.java
  model.Task
-controller/ProjectController.java
- controller.ProjectController
+view/TaskDialogScreen.java
+ view.TaskDialogScreen
+ view.TaskDialogScreen$1
+ view.TaskDialogScreen$2
+ view.TaskDialogScreen$3
+ view.TaskDialogScreen$4
+ view.TaskDialogScreen$4$1
+view/ProjectDialogScreen.java
+ view.ProjectDialogScreen
+ view.ProjectDialogScreen$1
+ view.ProjectDialogScreen$2
+ view.ProjectDialogScreen$2$1
 main/Main.java
  main.Main
+model/Project.java
+ model.Project
+controller/ProjectController.java
+ controller.ProjectController
 view/MainScream.java
  view.MainScream
  view.MainScream$1
+ view.MainScream$2
+ view.MainScream$3
+ view.MainScream$4
+ view.MainScream$5

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import model.Project;
@@ -27,8 +28,8 @@ public class ProjectController {
             statement = connection.prepareStatement(sql);
             statement.setString(1, project.getName());
             statement.setString(2, project.getDescription());
-            statement.setDate(3, new Date(project.getCreatedAt().getTime()));
-            statement.setDate(4, new Date(project.getUpdatedAt().getTime()));
+            statement.setTimestamp(3, new Timestamp(System.currentTimeMillis())); //project.getCreatedAt().getTime()
+            statement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             statement.execute();
         }catch(Exception e){
             throw new RuntimeException("Erro ao salvar o projeto"+e.getMessage(),e);
@@ -37,7 +38,7 @@ public class ProjectController {
         }
     }
     public void update(Project project){
-        String sql = "UPDATE projects SET name= ?, description= ?, createdat= ?,"
+        String sql = "UPDATE projects SET name= ?, description= ?,"
                 + "updatedat= ? WHERE id= ?";
         Connection connection = null;
         PreparedStatement statement = null;
@@ -46,9 +47,8 @@ public class ProjectController {
             statement = connection.prepareStatement(sql);
             statement.setString(1, project.getName());
             statement.setString(2, project.getDescription());
-            statement.setDate(3, new Date(project.getCreatedAt().getTime()));
-            statement.setDate(4, new Date(project.getUpdatedAt().getTime()));
-            statement.setInt(5, project.getId());
+            statement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+            statement.setInt(4, project.getId());
             statement.execute();
     }catch(Exception e){
             throw new RuntimeException("Erro ao atualizar o projeto"+e.getMessage(),e);

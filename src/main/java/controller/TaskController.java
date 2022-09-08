@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import model.Task;
@@ -33,9 +34,9 @@ public class TaskController {
             statement.setString(3, task.getDescription());
             statement.setBoolean(4, task.isIsCompleted());
             statement.setString(5, task.getNotes());
-            statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setDate(7, new Date(task.getCreatedAt().getTime()));
-            statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
+            statement.setDate(6, task.getDeadline());
+            statement.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
+            statement.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
             statement.execute();
         }catch(Exception e){
             throw new RuntimeException("Erro ao salvar tarefa"+e.getMessage(),e);
@@ -45,7 +46,7 @@ public class TaskController {
     }   
     public void update(Task task){
         String SQL = "UPDATE tasks SET idProject = ?, name = ?,description = ?,"
-                + "notes= ?, completed= ?, deadline = ?, createdAt= ?, updatedAt=?"
+                + "notes= ?, completed= ?, deadline = ?, updatedAt=?"
                 + " WHERE id= ?";
         Connection connection = null;
         PreparedStatement statement = null;
@@ -58,10 +59,9 @@ public class TaskController {
             statement.setString(3, task.getDescription());
             statement.setString(4, task.getNotes());
             statement.setBoolean(5, task.isIsCompleted());
-            statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setDate(7, new Date(task.getCreatedAt().getTime()));
-            statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
-            statement.setInt(9, task.getId());
+            statement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+            statement.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
+            statement.setInt(8, task.getId());
             statement.execute();
         }catch(Exception e){
             throw new RuntimeException("Erro ao atualizar a tarefa"+e.getMessage());
@@ -103,8 +103,8 @@ public class TaskController {
               task.setNotes(resultSet.getString("notes"));
               task.setIsCompleted(resultSet.getBoolean("completed"));
               task.setDeadline(resultSet.getDate("deadline"));
-              task.setDeadline(resultSet.getDate("createdAt"));
-              task.setDeadline(resultSet.getDate("updatedAt"));
+              task.setCreatedAt(resultSet.getTimestamp("createdAt"));
+              task.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
               
               tasks.add(task);
           }
