@@ -1,9 +1,21 @@
-controller/TaskController.java
- controller.TaskController
+controller/ProjectController.java
+ controller.ProjectController
 util/ConnectionFactory.java
  util.ConnectionFactory
+model/Project.java
+ model.Project
+main/Main.java
+ main.Main
+view/ProjectDialogScreen.java
+ view.ProjectDialogScreen
+ view.ProjectDialogScreen$1
+ view.ProjectDialogScreen$2
+ view.ProjectDialogScreen$2$1
+util/TaskTableModel.java
+ util.TaskTableModel
 model/Task.java
  model.Task
+<<<<<<< HEAD
 controller/ProjectController.java
  controller.ProjectController
 view/ProjectDialogScreen.java
@@ -15,6 +27,10 @@ main/Main.java
  main.Main
 model/Project.java
  model.Project
+=======
+controller/TaskController.java
+ controller.TaskController
+>>>>>>> semana5
 view/TaskDialogScreen.java
  view.TaskDialogScreen
  view.TaskDialogScreen$1
@@ -29,3 +45,6 @@ view/MainScream.java
  view.MainScream$3
  view.MainScream$4
  view.MainScream$5
+ view.MainScream$6
+ view.MainScream$7
+ view.MainScream$8

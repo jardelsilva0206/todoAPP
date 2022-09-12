@@ -17,8 +17,10 @@ import model.Task;
  * @author Jardel
  */
 public class TaskDialogScreen extends javax.swing.JDialog {
-TaskController controller;
-Project project;
+
+    TaskController controller;
+    Project project;
+
     /**
      * Creates new form TaskDialogScreen
      */
@@ -195,9 +197,9 @@ Project project;
     }//GEN-LAST:event_jFormattedTextFieldDeadlineActionPerformed
 
     private void jLabelToolbarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolbarSaveMouseClicked
-        try{
+        try {
             Task task = new Task();
-            task.setIdProject(6);
+            task.setIdProject(project.getId());
             task.setName(jTextFieldName.getText());
             task.setDescription(jTextAreaDescription.getText());
             task.setNotes(jTextAreaNotes.getText());
@@ -207,7 +209,7 @@ Project project;
             task.setDeadline(datas);
             controller.save(task);
             JOptionPane.showMessageDialog(rootPane, "Tarefa salva com sucesso");
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
         this.dispose();
@@ -275,6 +277,5 @@ Project project;
     public void setProject(Project project) {
         this.project = project;
     }
-
 
 }
