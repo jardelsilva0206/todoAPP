@@ -12,6 +12,7 @@ import java.sql.Date;
  * @author Jardel
  */
 public class Task {
+
     private int id;
     private int idProject;
     private String name;
@@ -33,9 +34,11 @@ public class Task {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-public Task(){
-    
-}
+
+    public Task() {
+
+    }
+
     public int getId() {
         return id;
     }
