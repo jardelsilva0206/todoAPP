@@ -63,7 +63,9 @@ public class TaskController {
             statement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
             statement.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
             statement.setInt(8, task.getId());
+            System.out.println(statement);
             statement.execute();
+            System.out.println("Eu atualizei a tatefa");
         } catch (Exception e) {
             throw new RuntimeException("Erro ao atualizar a tarefa" + e.getMessage());
         }
@@ -83,6 +85,35 @@ public class TaskController {
         } finally {
             ConnectionFactory.closeConnection(conn, statement);
         }
+    }
+    public Task buscaTask(int taskId){
+        Task task = new Task();
+        String sql = "SELECT * FROM tasks WHERE ID= ?";
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            conn = ConnectionFactory.getConnection();
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, taskId);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                task.setId(resultSet.getInt("id"));
+                task.setIdProject(resultSet.getInt("idProject"));
+                task.setName(resultSet.getString("name"));
+                task.setDescription(resultSet.getString("description"));
+                task.setNotes(resultSet.getString("notes"));
+                task.setIsCompleted(resultSet.getBoolean("completed"));
+                task.setDeadline(resultSet.getDate("deadline"));
+                task.setCreatedAt(resultSet.getTimestamp("createdAt"));
+                task.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar a tarefa" + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection(conn, statement);
+        }
+        return task;
     }
 
     public List<Task> getAll(int idProject) {
@@ -118,4 +149,5 @@ public class TaskController {
         }
         return tasks;
     }
+ 
 }

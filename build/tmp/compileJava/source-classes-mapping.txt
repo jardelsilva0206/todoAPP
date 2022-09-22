@@ -1,36 +1,26 @@
-controller/ProjectController.java
- controller.ProjectController
+util/DeadlineColumnCellRederer.java
+ util.DeadlineColumnCellRederer
+view/ProjectDialogScreen.java
+ view.ProjectDialogScreen
+ view.ProjectDialogScreen$1
+ view.ProjectDialogScreen$2
+ view.ProjectDialogScreen$2$1
+model/Task.java
+ model.Task
+main/Main.java
+ main.Main
+util/TaskTableModel.java
+ util.TaskTableModel
+util/ButtonColumnCellRederer.java
+ util.ButtonColumnCellRederer
 util/ConnectionFactory.java
  util.ConnectionFactory
 model/Project.java
  model.Project
-main/Main.java
- main.Main
-view/ProjectDialogScreen.java
- view.ProjectDialogScreen
- view.ProjectDialogScreen$1
- view.ProjectDialogScreen$2
- view.ProjectDialogScreen$2$1
-util/TaskTableModel.java
- util.TaskTableModel
-model/Task.java
- model.Task
-<<<<<<< HEAD
 controller/ProjectController.java
  controller.ProjectController
-view/ProjectDialogScreen.java
- view.ProjectDialogScreen
- view.ProjectDialogScreen$1
- view.ProjectDialogScreen$2
- view.ProjectDialogScreen$2$1
-main/Main.java
- main.Main
-model/Project.java
- model.Project
-=======
 controller/TaskController.java
  controller.TaskController
->>>>>>> semana5
 view/TaskDialogScreen.java
  view.TaskDialogScreen
  view.TaskDialogScreen$1
@@ -48,3 +38,4 @@ view/MainScream.java
  view.MainScream$6
  view.MainScream$7
  view.MainScream$8
+ view.MainScream$9

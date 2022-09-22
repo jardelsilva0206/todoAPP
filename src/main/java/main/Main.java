@@ -7,6 +7,7 @@ package main;
 import controller.ProjectController;
 import java.sql.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.Project;
 
 /**
@@ -19,7 +20,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       ProjectController projectController = new ProjectController();
+       /*ProjectController projectController = new ProjectController();
        Project project = new Project();
        Date data = new Date(1992/11/31);
        project.setName("Projeto-teste2");
@@ -33,5 +34,8 @@ public class Main {
        //List projetos = projectController.getAll();
        //System.out.println(projetos.size());
     }
-    
+    */
+      int resposta = JOptionPane.showConfirmDialog(null, "Deseja deletar?");
+      System.out.println(resposta);
+    }
 }

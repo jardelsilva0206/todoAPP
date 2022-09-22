@@ -12,8 +12,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import model.Project;
 import model.Task;
+import util.ButtonColumnCellRederer;
+import util.DeadlineColumnCellRederer;
 import util.TaskTableModel;
 
 /**
@@ -29,9 +32,9 @@ public class MainScream extends javax.swing.JFrame {
 
     public MainScream() {
         initComponents();
-        decorateTableTasks();
         initDataController();
         initComponentsModel();
+        decorateTableTasks();
     }
 
     /**
@@ -192,7 +195,7 @@ public class MainScream extends javax.swing.JFrame {
             .addGroup(jPanelTasksLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelTasksTiltle, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelTasksAdd)
                 .addContainerGap())
         );
@@ -224,17 +227,11 @@ public class MainScream extends javax.swing.JFrame {
         jPanelProjectsList.setLayout(jPanelProjectsListLayout);
         jPanelProjectsListLayout.setHorizontalGroup(
             jPanelProjectsListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelProjectsListLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrolPanelProjects)
-                .addContainerGap())
+            .addComponent(jScrolPanelProjects, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
         );
         jPanelProjectsListLayout.setVerticalGroup(
             jPanelProjectsListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelProjectsListLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrolPanelProjects, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrolPanelProjects)
         );
 
         jPanel5.setBackground(java.awt.Color.white);
@@ -244,20 +241,20 @@ public class MainScream extends javax.swing.JFrame {
         jTableTasks.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTableTasks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Descrição", "Prazo", "Tarefa concluida"
+                "Nome", "Descrição", "Prazo", "Tarefa concluida", "Editar", "Excluir"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -330,6 +327,7 @@ public class MainScream extends javax.swing.JFrame {
         int projectIndex = jListProjects.getSelectedIndex();
         Project project = (Project) projectsModel.get(projectIndex);
         taskDialogScreen.setProject(project);
+        taskDialogScreen.setTipoTela("salvarTarefa");
         taskDialogScreen.setVisible(true);
         taskDialogScreen.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
@@ -344,21 +342,38 @@ public class MainScream extends javax.swing.JFrame {
         int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
         int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
         Task task = taskModel.getTasks().get(rowIndex);
+        int projectIndex;
         switch (columnIndex) {
             case 3:
                 taskController.update(task);
                 break;
             case 4:
-
+                projectIndex = jListProjects.getSelectedIndex();
+                Project projectUpdate = (Project) projectsModel.get(projectIndex);
+                TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+                taskDialogScreen.loadTask(task.getId());
+                taskDialogScreen.setProject(projectUpdate);
+                taskDialogScreen.setTipoTela("atualizarTarefa");
+                taskDialogScreen.setVisible(true);
+                taskDialogScreen.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e) {
+                int projectIndex = jListProjects.getSelectedIndex();
+                Project project = (Project) projectsModel.get(projectIndex);
+                loadTasks(project.getId());
+            }
+        });
                 break;
             case 5:
-                
-                taskController.removeById(task.getId());
-                taskModel.getTasks().remove(task);
-                int projectIndex = jListProjects.getSelectedIndex();
-                Project project =  (Project) projectsModel.get(projectIndex);
-                loadTasks(project.getId());
+                int resposta = JOptionPane.showConfirmDialog(rootPane, "Deseja deletar a tarefa selecionada?");
+                if (resposta == 0) {
+                    taskController.removeById(task.getId());
+                    taskModel.getTasks().remove(task);
+                    projectIndex = jListProjects.getSelectedIndex();
+                    Project project = (Project) projectsModel.get(projectIndex);
+                    loadTasks(project.getId());
+                }
                 break;
+
         }
     }//GEN-LAST:event_jTableTasksMouseClicked
 
@@ -430,7 +445,9 @@ public class MainScream extends javax.swing.JFrame {
         jTableTasks.getTableHeader().setBackground(new Color(0, 102, 255));
         jTableTasks.getTableHeader().setForeground(new Color(255, 255, 255));
         jTableTasks.setAutoCreateRowSorter(true);
-
+        jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRederer());
+        jTableTasks.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRederer("edit"));
+        jTableTasks.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnCellRederer("delete"));
     }
 
     public void initDataController() {

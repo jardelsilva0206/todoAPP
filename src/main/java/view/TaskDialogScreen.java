@@ -29,6 +29,9 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         initComponents();
         controller = new TaskController();
     }
+    public TaskDialogScreen(){
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -197,8 +200,11 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     }//GEN-LAST:event_jFormattedTextFieldDeadlineActionPerformed
 
     private void jLabelToolbarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolbarSaveMouseClicked
-        try {
-            Task task = new Task();
+        
+            try {
+            if(!jTextFieldName.getText().isEmpty()&&
+                    !jFormattedTextFieldDeadline.getText().isEmpty()){
+                 Task task = new Task();
             task.setIdProject(project.getId());
             task.setName(jTextFieldName.getText());
             task.setDescription(jTextAreaDescription.getText());
@@ -207,12 +213,24 @@ public class TaskDialogScreen extends javax.swing.JDialog {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             java.sql.Date datas = new java.sql.Date(dateFormat.parse(jFormattedTextFieldDeadline.getText()).getTime());
             task.setDeadline(datas);
+            task.setId(this.getIdTask());
+            if(this.getTipoTela().equalsIgnoreCase("salvarTarefa")){
             controller.save(task);
             JOptionPane.showMessageDialog(rootPane, "Tarefa salva com sucesso");
+            }
+            if(this.getTipoTela().equalsIgnoreCase("atualizarTarefa")){
+        controller.update(task);
+        JOptionPane.showMessageDialog(rootPane, "Tarefa atualizada com sucesso");
+        }
+            this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "A tarefa não foi salva pois "
+                        + "existem campos obrigatórios a serem preenchidos.");
+            }
+           
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-        this.dispose();
     }//GEN-LAST:event_jLabelToolbarSaveMouseClicked
 
     /**
@@ -276,6 +294,35 @@ public class TaskDialogScreen extends javax.swing.JDialog {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+    private String tipoTela;
+
+    public String getTipoTela() {
+        return tipoTela;
+    }
+
+    public void setTipoTela(String tipoTela) {
+        this.tipoTela = tipoTela;
+    }
+    
+    public void loadTask(int taskId){
+        TaskController taskController = new TaskController();
+        Task task = taskController.buscaTask(taskId);
+        jTextFieldName.setText(task.getName());
+        jTextAreaDescription.setText(task.getDescription());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        jFormattedTextFieldDeadline.setText(dateFormat.format(task.getDeadline()));
+        jTextAreaNotes.setText(task.getNotes());
+        this.setIdTask(taskId);
+    }
+private int idTask;
+
+    public int getIdTask() {
+        return idTask;
+    }
+
+    public void setIdTask(int idTask) {
+        this.idTask = idTask;
     }
 
 }

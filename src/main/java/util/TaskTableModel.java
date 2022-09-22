@@ -23,17 +23,17 @@ public class TaskTableModel extends AbstractTableModel {
     public int getRowCount() {
         return tasks.size();
     }
-    
+
     @Override
     public int getColumnCount() {
         return columns.length;
     }
-    
+
     @Override
     public String getColumnName(int columnIndex) {
         return columns[columnIndex];
     }
-    
+
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return columnIndex == 3;
     }
@@ -45,43 +45,48 @@ public class TaskTableModel extends AbstractTableModel {
         }
         return this.getValueAt(0, columnIndex).getClass();
     }
-    
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+        if (tasks.size() == 1) {
+            rowIndex = 0;
+        }
         switch (columnIndex) {
             case 0:
+                System.out.println(rowIndex);
                 return tasks.get(rowIndex).getName();
             case 1:
-                return tasks.get(rowIndex).getDescription();            
+                return tasks.get(rowIndex).getDescription();
+                
             case 2:
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                return dateFormat.format(tasks.get(rowIndex).getDeadline());            
+                return dateFormat.format(tasks.get(rowIndex).getDeadline());
             case 3:
-                return tasks.get(rowIndex).isIsCompleted();            
+                return tasks.get(rowIndex).isIsCompleted();
             case 4:
                 return "";
             case 5:
                 return "";
-            default:                
+            default:
                 return "Dados não encontrados";
-        }
+                
     }
-    
+    }
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         tasks.get(rowIndex).setIsCompleted((boolean) aValue);
     }
-    
+
     public String[] getColumns() {
         return columns;
     }
-    
+
     public List<Task> getTasks() {
         return tasks;
     }
-    
+
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
-    
+
 }
